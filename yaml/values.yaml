@@ -1,0 +1,31 @@
+
+app: Cloud
+server: GitBookServer
+template: tars.nodejs
+profile: ""
+servants:
+  - name: GitBookObj
+    port: 10000
+    isTars: true
+    isTcp: true
+    thread: 2
+    capacity: 100000
+    connection: 10000
+    timeout: 30000
+replicas: 2
+hostNetwork: false
+hostIPC: false
+hostPorts: []
+repo:
+  id:
+  image: ruanshudong/cloud.gitbookserver
+  secret: tars-image-secret
+config:
+  - name: config.json
+    content: |
+      {
+        "config": {
+          "cn_git": "/usr/local/server/bin/docs/TarsDocs",
+          "en_git": "/usr/local/server/bin/docs/TarsDocs_en"
+        }
+      }

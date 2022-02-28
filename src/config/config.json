@@ -1,0 +1,8 @@
+{
+    "webConf": {
+        "defaultLanguage": "cn",
+        "title": "TARS文档"
+    },
+    "cn_git": "./docs/TarsDocs",
+    "en_git": "./docs/TarsDocs_en"
+}
