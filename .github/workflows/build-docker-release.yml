@@ -38,6 +38,12 @@ jobs:
           known_hosts: ${{ secrets.ACTION_KNOWN_HOSTS }} 
       - name: npm install
         run: npm install && npm run build
+      - name: git tars docs
+        run: |
+          mkdir docs
+          cd docs
+          git clone https://github.com/TarsCloud/TarsDocs
+          git clone https://github.com/TarsCloud/TarsDocs_en
       - name: build docker
         run: exec-build.sh tarscloud/tars.nodejsbase nodejs . yaml/values.yaml ${{ steps.get_version.outputs.VERSION }} true
       - name: build helm 

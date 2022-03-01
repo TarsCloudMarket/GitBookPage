@@ -228,7 +228,7 @@ class Markdown {
         let page: string = decodeURIComponent(ctx.paramsObj.page);
         // console.log('view:', ctx.paramsObj);
 
-        let pos = page.indexOf('?');
+        const pos = page.indexOf('?');
         if (pos != -1) {
             page = page.substring(0, pos - 1);
         }

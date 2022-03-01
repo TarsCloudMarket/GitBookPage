@@ -43,6 +43,12 @@ jobs:
         run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
       - name: npm install
         run: npm install && npm run build
+      - name: git tars docs
+        run: |
+          mkdir docs
+          cd docs
+          git clone https://github.com/TarsCloud/TarsDocs
+          git clone https://github.com/TarsCloud/TarsDocs_en
       - name: build docker
         run: exec-build.sh tarscloud/tars.nodejsbase nodejs . yaml/values.yaml ${{ steps.vars.outputs.sha_short }} true
       - name: build helm 
