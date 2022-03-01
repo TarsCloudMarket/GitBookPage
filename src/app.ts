@@ -36,7 +36,6 @@ const appInitialize = (conf: any) => {
     app.use(staticRouter(path.join(__dirname, "../client/dist"), { maxage: 7 * 24 * 60 * 60 * 1000 }));
 
     console.log(conf);
-    // console.log(webConf);
     app.use(staticRouter(conf.config.cn_git, { maxage: 7 * 24 * 60 * 60 * 1000 }));
     app.use(staticRouter(conf.config.en_git, { maxage: 7 * 24 * 60 * 60 * 1000 }));
 
