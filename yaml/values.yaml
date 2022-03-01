@@ -6,7 +6,7 @@ profile: ""
 servants:
   - name: GitBookObj
     port: 10000
-    isTars: true
+    isTars: false
     isTcp: true
     thread: 2
     capacity: 100000
