@@ -29,7 +29,6 @@ class TreeController {
         if (ctx.cookies.get("locale") == "en") {
             return this._en;
         }
-
         return this._cn;
     }
 

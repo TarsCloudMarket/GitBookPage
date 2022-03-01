@@ -22,18 +22,13 @@
         </el-col>
         <el-col :span="2">
           <div class="language-wrap">
-            <el-select
-              v-model="locale"
-              @change="changeLocale"
-              :clearable="false"
-            >
-              <template v-for="locale in localeMessages">
-                <el-option
-                  :value="locale.localeCode"
-                  :key="locale.localeCode"
-                  >{{ locale.localeName }}</el-option
-                >
-              </template>
+            <el-select v-model="locale" @change="changeLocale">
+              <el-option
+                v-for="l in localeMessages"
+                :value="l.localeCode"
+                :key="l.localeCode"
+                :label="l.localeName"
+              ></el-option>
             </el-select>
           </div>
         </el-col>
@@ -69,7 +64,7 @@ export default {
   data() {
     return {
       // 图标
-      locale: this.$cookie.get("locale") || "en",
+      locale: this.$cookie.get("locale") || "cn",
       uid: "--",
       enableLogin: false,
       localeMessages: localeMessages,
@@ -114,10 +109,7 @@ export default {
       this.$emit("search", this.query);
     },
   },
-  mounted() {
-    // this.getLoginUid();
-    // this.checkAdmin();
-  },
+  mounted() {},
 };
 </script>
 

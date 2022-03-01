@@ -39,6 +39,7 @@
             {{ $t("index.directory") }}
           </div>
           <ul></ul>
+          <div class="cur_bg"></div>
         </div>
       </el-main>
     </el-container>
@@ -59,7 +60,7 @@ export default {
       uid: "--",
       activeIndex: "0",
       search: false,
-      showPage: false,
+      isLogin: false,
       queryData: [],
       treeErrMsg: "load failed",
       treeData: [],
@@ -82,6 +83,7 @@ export default {
         vm.$loginUtil.onLogin(false);
       } else {
         vm.$loginUtil.onLogin(true);
+        vm.isLogin = true;
       }
     });
   },
@@ -265,43 +267,10 @@ export default {
   created() {
     this.getTreeData("", 0);
   },
-  watch: {
-    $route(to, from) {
-      $(".book_summary").removeClass("show");
-    },
-  },
   mounted() {
-    $(".backTop").click(function () {
-      $("main").scrollTop(0);
-    });
-    $("main").scroll(function () {
-      if (this.scrollTop > $(this).height()) {
-        $(".backTop").addClass("fade_in");
-      } else {
-        $(".backTop").removeClass("fade_in");
-      }
-    });
     $(".section_index").click(function () {
       $(".fix_nav").toggleClass("show");
-    });
-    $(".book_summary").click(function () {
-      $(".el-aside").toggleClass("open");
-      $(this).toggleClass("show");
     });
   },
 };
 </script>
-
-<style>
-.book_summary {
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  z-index: 2000;
-}
-.book_summary.show .el-icon-menu:before {
-  content: "\e7a9" !important;
-}
-</style>

@@ -1,9 +1,9 @@
 <template>
   <div style="width: 90%" class="user_list">
-    <el-table :data="userList" stripe style="width: 100%">
+    <el-table :data="userList" border stripe style="width: 100%">
       <el-table-column prop="uid" sortable :label="$t('user.user')">
       </el-table-column>
-      <el-table-column prop="loginTime" sortable :label="$t('user.loginTime')">
+      <el-table-column prop="updateTime" sortable :label="$t('user.loginTime')">
       </el-table-column>
       <el-table-column
         prop="createTime"
@@ -69,7 +69,7 @@ table th {
 <script>
 import moment from "moment";
 export default {
-  name: "User",
+  name: "UserList",
   data() {
     return {
       filter: false,
@@ -84,18 +84,19 @@ export default {
   },
   methods: {
     fetchData(currentPage) {
-      this.$ajax
-        .postJSON("/sso/userList", {
-          pagesize: this.pagination.size,
-          pagenum: currentPage,
+      this.$cloud
+        .call("cloud-user", "getUserList", {
+          ticket: window.localStorage.ticket,
+          offset: this.pagination.page - 1,
+          limit: this.pagination.size,
         })
         .then((data) => {
-          this.userList = data.rows;
-          this.pagination.total = data.count;
+          this.userList = data.users.users;
+          this.pagination.total = data.total;
           this.pagination.page = currentPage;
 
           this.userList.forEach((item) => {
-            item.loginTime = moment(item.loginTime).format(
+            item.updateTime = moment(item.updateTime).format(
               "YYYY-MM-DD HH:mm:ss"
             );
             item.createTime = moment(item.createTime).format(
@@ -121,8 +122,11 @@ export default {
           cancelButtonText: this.$t("user.cancel"),
         }
       ).then(() => {
-        this.$ajax
-          .getJSON("/sso/activateUser", { uid: data.uid })
+        this.$cloud
+          .call("cloud-user", "activateUser", {
+            ticket: window.localStorage.ticket,
+            uid: data.uid,
+          })
           .then(() => {
             this.fetchData(this.pagination.page);
           })
@@ -135,8 +139,11 @@ export default {
 
         cancelButtonText: this.$t("user.cancel"),
       }).then(() => {
-        this.$ajax
-          .postJSON("/sso/deleteUser", { uid: data.uid })
+        this.$cloud
+          .call("cloud-user", "deleteUser", {
+            ticket: window.localStorage.ticket,
+            uid: data.uid,
+          })
           .then(() => {
             this.fetchData(this.pagination.page);
           })

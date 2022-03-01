@@ -21,21 +21,38 @@ export default {
     };
   },
   methods: {
+    doFetchData(page, locale) {
+      if (locale == "en" || locale == "cn") {
+        this.$cookie.set("locale", locale);
+      }
+
+      location.href = page;
+
+      this.$nextTick(() => {
+        window.location.reload();
+      });
+    },
     fetchData() {
       let page = location.hash;
 
-      // console.log(location);
+      if (page == "#/default-index") {
+        page = "#/README.md";
+      }
+
       if (page.endsWith("pdf") || page.endsWith("pptx")) {
         this.$ajax.download("/api/view", { page });
       } else {
         this.loading = true;
 
+        let that = this;
+
         this.$ajax
-          .getJSON("/api/view", { page })
+          .getJSON("/api/view", {
+            page,
+          })
           .then((data) => {
-            // setTimeout(() => {
             this.loading = false;
-            this.html = data.data;
+            that.html = data.data;
 
             this.$nextTick(() => {
               const pos = page.lastIndexOf("#");
@@ -120,7 +137,6 @@ export default {
                 $(".cur_bg").css("top", $(this).parent().index() * 26);
               });
             });
-            // }, 200);
           })
           .catch((err) => {
             console.log(err);
@@ -130,11 +146,21 @@ export default {
     },
   },
   watch: {
-    $route: "fetchData",
+    $route(to, from) {
+      console.log(to);
+      this.fetchData();
+    },
+  },
+  created() {
+    window.vue = this;
   },
   mounted() {
     this.fetchData();
   },
+};
+
+window.doFetchData = (file, locale) => {
+  window.vue.doFetchData(file, locale);
 };
 </script>
 

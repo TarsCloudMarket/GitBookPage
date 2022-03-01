@@ -7,6 +7,20 @@ const server_port = process.env.SERVER_PORT || '4000'
 module.exports = defineConfig({
   transpileDependencies: true,
   runtimeCompiler: true,
+  pages: {
+    index: {
+      entry: 'src/main.js',
+      template: 'public/index.html',
+      filename: 'index.html',
+      title: "TARS",
+    },
+    user: {
+      entry: 'src/user.js',
+      template: 'public/index.html',
+      filename: 'user.html',
+      title: "User",
+    },
+  },
   devServer: {
     //是否自动在浏览器中打开
     open: true,

@@ -3,12 +3,12 @@
   "localeName": "中文",
   "market": {
     "login": {
-      "loginTitle": "请登录服务市场",
+      "loginTitle": "请登录",
       "registerInfo": "还没有账号? ",
       "userName": "邮箱",
       "inputUserName": "请输入邮箱",
       "password": "密码",
-      "passwordInfo": "> 8 chars with at least 1 uppercase/lowercase/number",
+      "passwordInfo": "不少于8个字符",
       "inputPassword": "请输入密码",
       "repeatPassword": "二次确认密码",
       "inputRepeatPassword": "请重复上面的密码",

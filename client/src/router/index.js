@@ -14,10 +14,10 @@ Router.prototype.replace = function replace(location) {
     return routerReplace.call(this, location).catch(error => error)
 }
 
-import Index from '@/components/index';
 import ViewIndex from '@/components/view/index';
 import View from '@/components/view/view.vue'
 
+import UserIndex from '@/components/user/index';
 import Login from '@/components/user/login';
 import Register from '@/components/user/register';
 import Activate from '@/components/user/activate';
@@ -28,7 +28,7 @@ import ResetPass from '@/components/user/resetPass';
 export default new Router({
     routes: [{
             path: '/user',
-            component: Index,
+            component: UserIndex,
             children: [{
                 path: 'login',
                 name: 'login',
@@ -54,6 +54,10 @@ export default new Router({
                 name: 'resetPass',
                 component: ResetPass,
             }]
+        },
+        {
+            path: "/",
+            redirect: '/default-index'
         },
         {
             path: '/',

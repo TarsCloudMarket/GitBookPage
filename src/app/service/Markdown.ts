@@ -8,7 +8,7 @@ import hljs from 'highlight.js';
 import { SearchService, DataType } from '../service/SearchService';
 import TarsLog from "@tars/logs";
 import calculate from 'etag';
-
+import url from "url";
 class Markdown {
 
     protected _id: number = 0;
@@ -21,6 +21,7 @@ class Markdown {
     protected _searchService = new SearchService();
 
     protected _dayLogger = new TarsLog("TarsRemote");
+    protected _logger = new TarsLog("TarsRotate");
 
     public initialize(git: string) {
 
@@ -145,11 +146,18 @@ class Markdown {
         if (anchor != -1) {
             subpath = subpath.substring(0, anchor);
         }
+        // console.log('pagePath:', subpath);
 
-        const f = fs.lstatSync(path.join(this._git, subpath));
-        if (!f.isFile()) {
-            subpath = defaultPage;
+        try {
+            const f = fs.lstatSync(path.join(this._git, subpath));
+            if (!f.isFile()) {
+                subpath = defaultPage;
+            }
+        } catch (e) {
+            this._logger.error("load file error:", e);
+            subpath = "README.md";
         }
+
 
         return subpath;
     }
@@ -217,7 +225,13 @@ class Markdown {
 
         let html = '';
 
-        const page: string = decodeURIComponent(ctx.paramsObj.page);
+        let page: string = decodeURIComponent(ctx.paramsObj.page);
+        // console.log('view:', ctx.paramsObj);
+
+        let pos = page.indexOf('?');
+        if (pos != -1) {
+            page = page.substring(0, pos - 1);
+        }
 
         this._dayLogger.debug(`view|${ctx.uid}|${ctx.cookies.get('uuid')}|${page}`);
 
@@ -251,14 +265,66 @@ class Markdown {
                             out = '<a href="javascript:document.getElementById(\'' + href.substring(1) + '\').scrollIntoView();"';
                         }
                         else if (href.indexOf('http://') == 0 || href.indexOf('https://') == 0) {
-                            out = '<a target="_black" href="' + href + '"';
+
+                            let locale = "";
+                            if (href.indexOf("tarscloud.github.io/TarsDocs") != -1) {
+
+                                if (href.startsWith("https://tarscloud.github.io/TarsDocs_en")) {
+                                    href = href.replace("https://tarscloud.github.io/TarsDocs_en", "");
+                                    if (href == "/" || href == "") {
+                                        href = "/#/README.md";
+                                    } else {
+                                        href = "/#" + href.replace("/blob/master/");
+                                    }
+                                    locale = "en";
+
+                                } else if (href.startsWith("https://tarscloud.github.io/TarsDocs/")) {
+                                    href = href.replace("https://tarscloud.github.io/TarsDocs", "");
+                                    if (href == "/" || href == "") {
+                                        href = "/#/README.md";
+                                    } else {
+                                        href = "/#" + href.replace("/blob/master/");
+                                    }
+                                    locale = "cn";
+                                }
+
+                            } else if (href.indexOf("github.com/TarsCloud/TarsDocs") != -1) {
+
+                                if (href.startsWith("https://github.com/TarsCloud/TarsDocs_en")) {
+                                    href = href.replace("https://github.com/TarsCloud/TarsDocs_en", "");
+                                    if (href == "/" || href == "") {
+                                        href = "/#/README.md";
+                                    } else {
+                                        href = "/#" + href.replace("/blob/master/");
+                                    }
+                                    locale = "en";
+
+                                } else if (href.startsWith("https://github.com/TarsCloud/TarsDocs")) {
+
+                                    href = href.replace("https://github.com/TarsCloud/TarsDocs", "");
+                                    if (href == "/" || href == "") {
+                                        href = "/#/README.md";
+                                    } else {
+                                        href = "/#" + href.replace("/blob/master/", "");
+                                    }
+                                    locale = "cn";
+                                }
+                            }
+
+                            if (locale != '') {
+                                out =
+                                    `<a javascript=':;' href='#' onclick="doFetchData('${href}', '${locale}')"`;
+                            } else {
+                                out = '<a target="_blank" href="' + href + '"';
+                            }
+
                         }
 
                         else {
 
-                            href = '/#' + path.join(hrefPath, href);
+                            href = '/#/' + path.join(hrefPath, href);
 
-                            out = '<a href="' + href + '"';
+                            out = `<a href="${href}"`;
                         }
 
                         if (title) {
