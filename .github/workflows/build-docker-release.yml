@@ -39,9 +39,9 @@ jobs:
       - name: npm install
         run: npm install && npm run build
       - name: build docker
-        run: exec-build.sh tarscloud/tars.nodejsbase nodejs . yaml/od-values.yaml ${{ steps.get_version.outputs.VERSION }} true
+        run: exec-build.sh tarscloud/tars.nodejsbase nodejs . yaml/values.yaml ${{ steps.get_version.outputs.VERSION }} true
       - name: build helm 
-        run: exec-helm.sh yaml/od-values.yaml ${{ steps.get_version.outputs.VERSION }}
+        run: exec-helm.sh yaml/values.yaml ${{ steps.get_version.outputs.VERSION }}
       - name: scp helm 
         run: scp -P 16000 $HELM_PACKAGE root@${{ secrets.ACTION_DEPLOY_HOST }}:/root/od-deploy-script/
       - name: deploy 
