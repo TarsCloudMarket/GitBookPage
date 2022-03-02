@@ -24,6 +24,10 @@ config:
   - name: config.json
     content: |
       {
+        "webConf": {
+            "defaultLanguage": "cn",
+            "title": "TARS官方文档"
+        },
         "cn_git": "/usr/local/server/bin/docs/TarsDocs",
         "en_git": "/usr/local/server/bin/docs/TarsDocs_en"
       }
