@@ -92,7 +92,7 @@ export default {
         })
         .then((data) => {
           this.userList = data.users.users;
-          this.pagination.total = data.total;
+          this.pagination.total = data.users.total;
           this.pagination.page = currentPage;
 
           this.userList.forEach((item) => {
