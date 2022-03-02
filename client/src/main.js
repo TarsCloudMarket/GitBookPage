@@ -1,8 +1,5 @@
 import Vue from 'vue';
 import store from "./store/store"
-import './plugins/ajax';
-import './plugins/cloud';
-import './plugins/ui';
 
 import indexApp from './App';
 import router from './router';
@@ -23,6 +20,11 @@ import "./assets/theme/element-to-let/index.css"
 
 import 'viewerjs/dist/viewer.css';
 import Viewer from 'v-viewer';
+
+import './plugins/ajax';
+import './plugins/common';
+import './plugins/cloud';
+import './plugins/ui';
 
 Vue.config.productionTip = false;
 

@@ -2,7 +2,7 @@
   <div>
     <!-- 修改密码 -->
     <el-card class="box-card market_page">
-      <h1 class="top_txt">{{ $t("market.login.modifyPass") }}</h1>
+      <h1 class="top_txt">{{ $t("cloud.login.modifyPass") }}</h1>
       <el-form
         label-width="200px"
         :model="data"
@@ -11,34 +11,34 @@
         :rules="rules"
       >
         <el-form-item
-          :label="$t('market.login.inputOldPass')"
+          :label="$t('cloud.login.inputOldPass')"
           prop="oldPassword"
           required
         >
           <el-input
-            :placeholder="$t('market.login.passwordInfo')"
+            :placeholder="$t('cloud.login.passwordInfo')"
             v-model="data.oldPassword"
             show-password
           ></el-input>
         </el-form-item>
         <el-form-item
-          :label="$t('market.login.inputNewPass')"
+          :label="$t('cloud.login.inputNewPass')"
           prop="newPassword"
           required
         >
           <el-input
-            :placeholder="$t('market.login.passwordInfo')"
+            :placeholder="$t('cloud.login.passwordInfo')"
             v-model="data.newPassword"
             show-password
           ></el-input>
         </el-form-item>
         <el-form-item
-          :label="$t('market.login.repeatInputNewPass')"
+          :label="$t('cloud.login.repeatInputNewPass')"
           prop="checkPass"
           required
         >
           <el-input
-            :placeholder="$t('market.login.repeatInputNewPass')"
+            :placeholder="$t('cloud.login.repeatInputNewPass')"
             v-model="data.checkPass"
             show-password
           ></el-input>
@@ -49,13 +49,13 @@
           size="small"
           round
           @click="modifyPass"
-          >{{ $t("market.login.modifyPass") }}</el-button
+          >{{ $t("cloud.login.modifyPass") }}</el-button
         >
 
         <br />
         <br />
         <div class="sub_menu">
-          <a size="small" round @click="back">{{ $t("market.login.back") }}</a>
+          <a size="small" round @click="back">{{ $t("cloud.login.back") }}</a>
         </div>
       </el-form>
     </el-card>
@@ -64,41 +64,10 @@
 
 <script>
 import sha1 from "sha1";
+import { validateEmail, validatePass, validatePass2 } from "@/plugins/common";
 export default {
   name: "ModifyPass",
   data() {
-    // 判断是否含有大写字母/小写字母/数字
-    var passwordIsValid = (str) => {
-      var result = str.match(/^.*[A-Z]+.*$/);
-      if (result == null) return false;
-      result = str.match(/^.*[a-z]+.*$/);
-      if (result == null) return false;
-      result = str.match(/^.*[0-9]+.*$/);
-      if (result == null) return false;
-
-      return true;
-    };
-
-    var validatePass = (rule, value, callback) => {
-      if (value.length < 8) {
-        callback(new Error(this.$t("market.login.passwordInfo")));
-      } else if (!passwordIsValid(value)) {
-        callback(new Error(this.$t("market.login.passwordInfo")));
-      } else {
-        callback();
-      }
-    };
-
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error(this.$t("login.inputPasswordAgain")));
-      } else if (value !== this.data.newPassword) {
-        callback(new Error(this.$t("login.passwordDiff")));
-      } else {
-        callback();
-      }
-    };
-
     return {
       data: {
         newPassword: "",
@@ -109,44 +78,59 @@ export default {
         newPassword: [
           {
             required: true,
-            message: this.$t("market.login.inputPassword"),
+            message: this.$t("cloud.login.inputPassword"),
             trigger: "blur",
           },
           {
             min: 8,
             max: 16,
-            message: this.$t("market.login.passwordInfo"),
+            message: this.$t("cloud.login.passwordInfo"),
             trigger: "blur",
           },
-          { validator: validatePass, trigger: "blur" },
+          {
+            validator: (...args) => {
+              return validatePass.call(this, ...args);
+            },
+            trigger: "blur",
+          },
         ],
         oldPassword: [
           {
             required: true,
-            message: this.$t("market.login.inputPassword"),
+            message: this.$t("cloud.login.inputPassword"),
             trigger: "blur",
           },
           {
             min: 8,
             max: 16,
-            message: this.$t("market.login.passwordInfo"),
+            message: this.$t("cloud.login.passwordInfo"),
             trigger: "blur",
           },
-          { validator: validatePass, trigger: "blur" },
+          {
+            validator: (...args) => {
+              return validatePass.call(this, ...args);
+            },
+            trigger: "blur",
+          },
         ],
         checkPass: [
           {
             required: true,
-            message: this.$t("market.login.inputPassword"),
+            message: this.$t("cloud.login.inputPassword"),
             trigger: "blur",
           },
           {
             min: 8,
             max: 16,
-            message: this.$t("market.login.passwordInfo"),
+            message: this.$t("cloud.login.passwordInfo"),
             trigger: "blur",
           },
-          { validator: validatePass2, trigger: "blur" },
+          {
+            validator: (...args) => {
+              return validatePass2.call(this, ...args);
+            },
+            trigger: "blur",
+          },
         ],
       },
     };
@@ -165,18 +149,11 @@ export default {
               newPassword: sha1(this.data.newPassword),
             })
             .then(() => {
-              this.$message({
-                message: this.$t("market.login.modifySucc"),
-                type: "success",
-              });
-
+              this.$common.showSucc("cloud.login.modifySucc");
               this.$router.push({ name: "index" });
             })
             .catch((err) => {
-              this.$message({
-                message: this.$t("market.userRet." + err.tars_ret || "-1"),
-                type: "error",
-              });
+              this.$common.showError("userRet", err);
             });
         } else {
           return false;

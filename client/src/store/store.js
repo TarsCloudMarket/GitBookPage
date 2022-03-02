@@ -22,7 +22,7 @@ const store = new Vuex.Store({
         },
         version(state, version) {
             state.version = version;
-        }
+        },
     }
 })
 

@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import Vue from 'vue';
 
 import AjaxUtil from '@/lib/ajax';
@@ -80,10 +79,12 @@ class LoginUtil {
         }
       })
       .catch((err) => {
-        this.vue.$message({
-          message: err,
-          type: "error",
-        });
+        this.vue.$common.showError(err, "userRet");
+
+        // this.vue.$message({
+        //   message: err,
+        //   type: "error",
+        // });
       });
   }
 }

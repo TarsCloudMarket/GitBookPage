@@ -88,9 +88,6 @@ export default {
     });
   },
   methods: {
-    backTop() {
-      document.getElementById("main").scrollTop = 0;
-    },
     query(search) {
       this.$ajax
         .getJSON("/api/search", { query: search })
@@ -268,9 +265,9 @@ export default {
     this.getTreeData("", 0);
   },
   mounted() {
-    $(".section_index").click(function () {
-      $(".fix_nav").toggleClass("show");
-    });
+    // $(".section_index").click(function () {
+    //   $(".fix_nav").toggleClass("show");
+    // });
   },
 };
 </script>

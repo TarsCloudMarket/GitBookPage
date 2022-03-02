@@ -1,7 +1,7 @@
 {
   "localeCode": "en",
   "localeName": "English",
-  "market": {
+  "cloud": {
 
     "login": {
       "loginTitle": "Login",

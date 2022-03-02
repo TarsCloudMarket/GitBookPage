@@ -1,7 +1,7 @@
 {
   "localeCode": "cn",
   "localeName": "中文",
-  "market": {
+  "cloud": {
     "login": {
       "loginTitle": "请登录",
       "registerInfo": "还没有账号? ",

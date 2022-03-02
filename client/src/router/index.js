@@ -57,11 +57,12 @@ export default new Router({
         },
         {
             path: "/",
+            name: 'index',
             redirect: '/default-index'
         },
         {
             path: '/',
-            name: 'index',
+            name: 'viewIndex',
             component: ViewIndex,
             children: [{
                 path: '*',

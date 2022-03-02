@@ -96,12 +96,16 @@ export default {
 .top_txt {
   border-bottom: 1px solid #f3f3f3ba;
   line-height: normal;
-  margin-bottom: 16px;
 }
 
 .top_txt h1 {
-  margin-top: 0;
-  padding-left: 40px !important;
+  /* margin-top: 5px; */
+  font-size: 25px !important;
+  border-bottom: none !important;
+  line-height: 45px !important;
+}
+
+.top_txt div {
   border-bottom: none !important;
   line-height: 45px !important;
 }
@@ -110,7 +114,6 @@ export default {
 .bot_txt span {
   float: right;
   line-height: 45px;
-  padding-right: 20px;
   font-size: 13px !important;
   color: #666;
 }

@@ -9,7 +9,7 @@
             /></a>
           </div>
         </el-col>
-        <el-col :span="15">
+        <el-col :span="14">
           <div class="search-wrap">
             <el-input :placeholder="$t('index.search')" v-model="query">
               <el-button
@@ -32,7 +32,7 @@
             </el-select>
           </div>
         </el-col>
-        <el-col :span="3">
+        <el-col :span="4">
           <div class="user-wrap">
             <el-dropdown
               style="display: block !important"
