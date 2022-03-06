@@ -87,7 +87,7 @@ export default {
       this.$cloud
         .call("cloud-user", "getUserList", {
           ticket: window.localStorage.ticket,
-          offset: this.pagination.page - 1,
+          offset: (this.pagination.page - 1) * this.pagination.size,
           limit: this.pagination.size,
         })
         .then((data) => {
