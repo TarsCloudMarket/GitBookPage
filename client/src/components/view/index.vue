@@ -23,7 +23,7 @@
           <span v-for="(data, index) in queryData" :key="index">
             <el-tag
               type="success"
-              style="cursor: pointer"
+              style="cursor: pointer; margin-bottom: 10px"
               @click="searchDoc(data)"
               >{{ data.name }}</el-tag
             >

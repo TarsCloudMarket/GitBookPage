@@ -11,6 +11,7 @@
 
 <script>
 /* eslint-disable */
+import "highlight.js/styles/github.css";
 import "@/assets/css/github-markdown-light.css";
 export default {
   name: "ViewPage",
