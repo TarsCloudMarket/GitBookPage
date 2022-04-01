@@ -37,6 +37,7 @@
             <el-dropdown
               style="display: block !important"
               @command="handleCommand"
+              v-if="cloudUid"
             >
               <span class="el-dropdown-link">
                 {{ cloudUid }}<i class="el-icon-arrow-down el-icon--right"></i>
@@ -66,7 +67,6 @@ export default {
       // 图标
       locale: this.$cookie.get("locale") || "cn",
       uid: "--",
-      enableLogin: false,
       localeMessages: localeMessages,
       query: "",
     };

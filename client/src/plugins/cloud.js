@@ -41,51 +41,50 @@ class LoginUtil {
   }
 
   onLogin(isLogin) {
-    if (isLogin) {
-      this.vue.$store.commit({
-        type: "cloudUid",
-        uid: window.localStorage.uid,
-      });
-    }
+    return;
+    // if (isLogin) {
+    //   this.vue.$store.commit({
+    //     type: "cloudUid",
+    //     uid: window.localStorage.uid,
+    //   });
+    // }
 
-    if (!isLogin && !location.hash.startsWith("#/user")) {
-      this.vue.$router.push({
-        name: 'login'
-      });
-    } else if (isLogin && location.hash == "#/") {
-      this.vue.$router.push({
-        name: 'index'
-      });
-    }
+    // if (!isLogin && !location.hash.startsWith("#/user")) {
+    //   this.vue.$router.push({
+    //     name: 'login'
+    //   });
+    // } else if (isLogin && location.hash == "#/") {
+    //   this.vue.$router.push({
+    //     name: 'index'
+    //   });
+    // }
   }
 
   checkLogin() {
-    let ticket = window.localStorage.ticket;
-    if (!ticket) {
-      this.onLogin(false);
-      return;
-    }
-    this.vue.$cloud
-      .call("cloud-user", "isLogin", {
-        ticket: ticket,
-      })
-      .then((data) => {
-        if (!data.uid) {
-          this.onLogin(false);
-        } else {
-          window.localStorage.uid = data.uid;
-          window.localStorage.ticket = data.ticket;
-          this.onLogin(true);
-        }
-      })
-      .catch((err) => {
-        this.vue.$common.showError(err, "userRet");
+    // this.onLogin(true);
+    // return;
 
-        // this.vue.$message({
-        //   message: err,
-        //   type: "error",
-        // });
-      });
+    // let ticket = window.localStorage.ticket;
+    // if (!ticket) {
+    //   this.onLogin(false);
+    //   return;
+    // }
+    // this.vue.$cloud
+    //   .call("cloud-user", "isLogin", {
+    //     ticket: ticket,
+    //   })
+    //   .then((data) => {
+    //     if (!data.uid) {
+    //       this.onLogin(false);
+    //     } else {
+    //       window.localStorage.uid = data.uid;
+    //       window.localStorage.ticket = data.ticket;
+    //       this.onLogin(true);
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     this.vue.$common.showError(err, "userRet");
+    //   });
   }
 }
 
