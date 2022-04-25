@@ -20,7 +20,7 @@ class Markdown {
     protected _markdown: DataType[];
     protected _searchService = new SearchService();
 
-    protected _dayLogger = new TarsLog("TarsRemote");
+    protected _dayLogger = new TarsLog("TarsRemote", "access");
     protected _logger = new TarsLog("TarsRotate");
 
     public initialize(git: string) {
