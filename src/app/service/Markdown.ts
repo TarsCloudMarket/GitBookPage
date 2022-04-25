@@ -234,6 +234,7 @@ class Markdown {
         }
 
         this._dayLogger.debug(`view|${ctx.uid}|${ctx.cookies.get('uuid')}|${page}`);
+        this._logger.debug(`view|${ctx.uid}|${ctx.cookies.get('uuid')}|${page}`);
 
         if (page.endsWith("pptx") || page.endsWith("pdf") || page.endsWith("ppt")) {
 
@@ -362,6 +363,8 @@ class Markdown {
     }
 
     public async tree(ctx: Koa.Context) {
+        this._logger.debug(`tree|${ctx.uid}|${ctx.cookies.get('uuid')}`);
+
         //每次clone的时候解析一次，如果需要本地目录文件每次访问的时候，实时解析，去掉该注释
         ctx.makeResObj(200, "succ", { tree: this._treeData, title: webConf.config.webConf.title });
     }
