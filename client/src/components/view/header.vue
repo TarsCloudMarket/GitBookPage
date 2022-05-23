@@ -55,6 +55,19 @@
         </el-col>
       </el-row>
     </div>
+
+    <el-dialog :visible.sync="dialogVisible" width="80%">
+      <el-image
+        style="width: 100%; height: 100%"
+        src="/images/star.jpg"
+      ></el-image>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="noStar()">{{ $t("index.nostar") }}</el-button>
+        <el-button type="primary" @click="goStar()">{{
+          $t("index.star")
+        }}</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -69,6 +82,7 @@ export default {
       uid: "--",
       localeMessages: localeMessages,
       query: "",
+      dialogVisible: false,
     };
   },
   computed: {
@@ -93,7 +107,19 @@ export default {
       this.$cookie.set("locale", this.locale, { expires: "1Y" });
       location.reload();
     },
-
+    showGit() {
+      this.dialogVisible = true;
+    },
+    goStar() {
+      this.dialogVisible = false;
+      window.open("https://github.com/TarsCloud/Tars", "blank");
+      window.localStorage.starTime =
+        new Date().getTime() + 7 * 24 * 60 * 60 * 1000;
+    },
+    noStar() {
+      window.localStorage.noStar = true;
+      this.dialogVisible = false;
+    },
     handleCommand(command) {
       if (command == "modifyPass") {
         this.$router.push({ name: "modifyPass" });
@@ -109,7 +135,17 @@ export default {
       this.$emit("search", this.query);
     },
   },
-  mounted() {},
+  mounted() {
+    window.localStorage.starTime =
+      window.localStorage.starTime || new Date().getTime();
+
+    if (
+      !window.localStorage.noStar ||
+      new Date().getTime() - window.localStorage.starTime
+    ) {
+      this.showGit();
+    }
+  },
 };
 </script>
 

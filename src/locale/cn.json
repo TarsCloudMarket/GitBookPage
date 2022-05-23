@@ -72,7 +72,9 @@
     "modifyPass": "修改密码",
     "quit": "退出",
     "directory": "本页目录",
-    "backTop": "回到顶部"
+    "backTop": "回到顶部",
+    "nostar": "我已经给过啦~~",
+    "star": "现在就去给个星~~"
   },
   "header": {
     "modifyPass": "修改密码",
