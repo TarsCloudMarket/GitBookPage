@@ -7,6 +7,7 @@ const server_port = process.env.SERVER_PORT || '4000'
 module.exports = defineConfig({
   transpileDependencies: true,
   runtimeCompiler: true,
+  productionSourceMap: false,
   pages: {
     index: {
       entry: 'src/main.js',
