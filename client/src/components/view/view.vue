@@ -69,10 +69,11 @@ export default {
               // 移动端表格处理
               $("table").wrap('<div class="table_wrap"></div>');
 
+              let diff = 15;
               // 展示右侧导航
               var list = [],
                 idList = [];
-              $(".cur_bg").css("top", 0);
+              $(".cur_bg").css("top", diff);
 
               $("main h1,main h2,main h3").each(function (i) {
                 $(this).attr("role", i);
@@ -106,7 +107,7 @@ export default {
                     .addClass("active")
                     .siblings()
                     .removeClass("active");
-                  $(".cur_bg").css("top", (idList.length - 1) * 26);
+                  $(".cur_bg").css("top", (idList.length - 1) * 26 + diff);
                 } else {
                   for (let i = 0; i < idList.length; i++) {
                     if (
@@ -123,7 +124,7 @@ export default {
                           .addClass("active")
                           .siblings("li")
                           .removeClass("active");
-                        $(".cur_bg").css("top", i * 26);
+                        $(".cur_bg").css("top", i * 26 + diff);
                       }
                     }
                   }
@@ -136,7 +137,7 @@ export default {
                   .addClass("active")
                   .siblings()
                   .removeClass("active");
-                $(".cur_bg").css("top", $(this).parent().index() * 26);
+                $(".cur_bg").css("top", $(this).parent().index() * 26 + diff);
               });
             });
           })
@@ -241,7 +242,7 @@ window.doFetchData = (file, locale) => {
   width: 100%;
   border-left: 2px solid #4d7fbf;
   left: -2px;
-  top: 0;
+  top: 15px;
   transition: all 0.25s ease-out;
 }
 
