@@ -1,10 +1,10 @@
 <template>
   <el-container>
     <el-header width="100%">
-      <app-header @search="query"></app-header>
+      <app-header @search="query" @showMenu="showMenu"></app-header>
     </el-header>
     <el-container>
-      <el-aside width="300px" style="padding: 40px">
+      <el-aside width="300px" style="padding: 40px" class="pc">
         <div>
           <el-tree
             :auto-expand-parent="true"
@@ -34,7 +34,7 @@
         <div>
           <router-view></router-view>
         </div>
-        <div class="fix_nav" v-if="!search">
+        <div class="pc fix_nav" v-if="!search">
           <div class="tit_index">
             {{ $t("index.directory") }}
           </div>
@@ -43,6 +43,25 @@
         </div>
       </el-main>
     </el-container>
+
+    <el-drawer
+      :visible.sync="drawer"
+      :direction="direction"
+      size="70%"
+      :title="$t('index.directory')"
+    >
+      <span
+        ><el-tree
+          :auto-expand-parent="true"
+          :default-expanded-keys="checkedKeys"
+          node-key="id"
+          :data="treeData"
+          :props="defaultProps"
+          @node-click="selectTree"
+          highlight-current
+        ></el-tree
+      ></span>
+    </el-drawer>
   </el-container>
 </template>
 
@@ -55,6 +74,9 @@ export default {
   },
   data() {
     return {
+      drawer: false,
+
+      direction: "ltr",
       expandedKeys: [],
       checkedKeys: [],
       uid: "--",
@@ -88,6 +110,9 @@ export default {
     });
   },
   methods: {
+    showMenu() {
+      this.drawer = true;
+    },
     query(search) {
       this.$ajax
         .getJSON("/api/search", { query: search })
@@ -109,6 +134,7 @@ export default {
       this.search = false;
 
       if (nodeKey.href) {
+        this.drawer = false;
         this.$router.push(`/${nodeKey.href}`);
       }
       setTimeout('document.getElementById("main").scrollTop = 0', 200);
@@ -271,3 +297,11 @@ export default {
   },
 };
 </script>
+
+<style>
+@media only screen and (max-width: 767px) {
+  .pc {
+    display: none;
+  }
+}
+</style>

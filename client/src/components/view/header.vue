@@ -2,15 +2,28 @@
   <div class="app_index__header">
     <div class="main-width">
       <el-row :gutter="24">
+        <el-col :span="2" class="menu">
+          <i
+            class="el-icon-menu"
+            @click="showMenu"
+            style="
+              padding-left: 0px;
+              height: 80px;
+              line-height: 80px;
+              font-size: 20pt;
+            "
+          ></i>
+        </el-col>
         <el-col :span="4">
           <div class="logo-wrap">
             <a :class="{ active: true }" href="/"
-              ><img class="logo" :src="getLogo()"
-            /></a>
+              ><img class="logo logo_pc" :src="getPcLogo()" />
+              <img class="logo logo_mobile" :src="getMobileLogo()" />
+            </a>
           </div>
         </el-col>
-        <el-col :span="14">
-          <div class="search-wrap">
+        <el-col :span="16" class="search-wrap">
+          <div>
             <el-input :placeholder="$t('index.search')" v-model="query">
               <el-button
                 slot="append"
@@ -20,8 +33,8 @@
             </el-input>
           </div>
         </el-col>
-        <el-col :span="2">
-          <div class="language-wrap">
+        <el-col :span="4" class="language-wrap">
+          <div>
             <el-select v-model="locale" @change="changeLocale">
               <el-option
                 v-for="l in localeMessages"
@@ -32,7 +45,7 @@
             </el-select>
           </div>
         </el-col>
-        <el-col :span="4">
+        <!-- <el-col :span="4">
           <div class="user-wrap">
             <el-dropdown
               style="display: block !important"
@@ -52,18 +65,20 @@
               </el-dropdown-menu>
             </el-dropdown>
           </div>
-        </el-col>
+        </el-col> -->
       </el-row>
     </div>
 
-    <el-dialog :visible.sync="dialogVisible" width="80%">
+    <el-dialog :visible.sync="dialogVisible" width="80%" class="star">
       <el-image
         style="width: 100%; height: 100%"
         src="/images/star.jpg"
       ></el-image>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="noStar()">{{ $t("index.nostar") }}</el-button>
-        <el-button type="primary" @click="goStar()">{{
+        <el-button size="mini" @click="noStar()">{{
+          $t("index.nostar")
+        }}</el-button>
+        <el-button size="mini" type="primary" @click="goStar()">{{
           $t("index.star")
         }}</el-button>
       </span>
@@ -91,12 +106,15 @@ export default {
     },
   },
   methods: {
-    getLogo() {
+    getPcLogo() {
       if (this.locale == "en") {
         return "/images/TARS-en-blue.png";
       } else {
         return "/images/TARS-cn-blue.png";
       }
+    },
+    getMobileLogo() {
+      return "/images/tars-logo.png";
     },
     changeLocale() {
       if (this.locale == "en") {
@@ -130,6 +148,9 @@ export default {
 
         this.$router.push({ name: "login" });
       }
+    },
+    showMenu() {
+      this.$emit("showMenu");
     },
     search() {
       this.$emit("search", this.query);
@@ -207,6 +228,40 @@ export default {
     height: 50px;
     text-align: right;
     margin-top: 30px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .main-width {
+    padding: 0px;
+  }
+
+  .app_index__header .menu {
+    display: inine;
+  }
+
+  .search-wrap {
+    display: none;
+  }
+
+  .language-wrap {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    width: 100px !important;
+  }
+
+  .logo_pc {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 767px) {
+  .app_index__header .menu {
+    display: none;
+  }
+
+  .logo_mobile {
+    display: none;
   }
 }
 </style>

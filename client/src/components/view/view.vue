@@ -1,9 +1,10 @@
 <template>
   <div
+    class="view"
     v-loading="loading"
     :element-loading-text="$t('common.loading')"
     element-loading-spinner="el-icon-loading"
-    style="padding: 20px; width: 75%"
+    style=""
   >
     <div class="markdown-body hljs" v-html="html"></div>
   </div>
@@ -256,5 +257,16 @@ window.doFetchData = (file, locale) => {
 }
 .viewer-navbar {
   display: none;
+}
+
+.view {
+  padding: 20px;
+  width: 75%;
+}
+@media only screen and (max-width: 767px) {
+  .view {
+    padding: 0px;
+    width: 100%;
+  }
 }
 </style>
