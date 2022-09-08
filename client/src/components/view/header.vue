@@ -160,10 +160,10 @@ export default {
     window.localStorage.starTime =
       window.localStorage.starTime || new Date().getTime();
 
-    if (
-      !window.localStorage.noStar ||
-      new Date().getTime() - window.localStorage.starTime
-    ) {
+    let diff = new Date().getTime() - window.localStorage.starTime;
+
+    // console.log(window.localStorage.noStar, diff);
+    if (!window.localStorage.noStar && diff > 0) {
       this.showGit();
     }
   },

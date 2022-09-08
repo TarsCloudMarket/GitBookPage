@@ -16,6 +16,9 @@
             highlight-current
           ></el-tree>
         </div>
+        <el-divider></el-divider>
+        <span>欢迎关注TARS技术公众号!</span>
+        <el-image style="width: 60%" src="/images/qrcode.jpeg"></el-image>
       </el-aside>
 
       <el-main id="main" v-viewer>
