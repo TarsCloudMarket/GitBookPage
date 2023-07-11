@@ -4,12 +4,12 @@ on:
   push:
     tags:
       - v*
-                
+
 jobs:
   build:
     container: tarscloud/base-compiler
     runs-on: ubuntu-20.04
-    env: 
+    env:
       NAMESPACE: od-prod
       HELM_PACKAGE: cloud-gitbookserver-1.0.0.tgz
     steps:
@@ -22,34 +22,25 @@ jobs:
       - name: Get version
         id: get_version
         run: echo "::set-output name=VERSION::${GITHUB_REF#refs/tags/}"
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
         with:
-          key: ${{ secrets.ACTION_DEPLOY_KEY }} 
-          known_hosts: ${{ secrets.ACTION_KNOWN_HOSTS }} 
+          key: ${{ secrets.ACTION_DEPLOY_KEY }}
+          known_hosts: ${{ secrets.ACTION_KNOWN_HOSTS }}
       - name: npm install
         run: npm install && npm run build
       - name: git tars docs
         run: |
           mkdir docs
           cd docs
+          git config --global --add safe.directory /__w/GitBookPage/GitBookPage
           git clone https://github.com/TarsCloud/TarsDocs
           git clone https://github.com/TarsCloud/TarsDocs_en
       - name: build docker
         run: exec-build.sh tarscloud/tars.nodejsbase nodejs . yaml/values.yaml ${{ steps.get_version.outputs.VERSION }} true
-      - name: build helm 
+      - name: build helm
         run: exec-helm.sh yaml/values.yaml ${{ steps.get_version.outputs.VERSION }}
-      - name: scp helm 
+      - name: scp helm
         run: scp -P 16000 $HELM_PACKAGE root@${{ secrets.ACTION_DEPLOY_HOST }}:/root/od-deploy-script/
-      - name: deploy 
+      - name: deploy
         run: ssh -p 16000 root@${{ secrets.ACTION_DEPLOY_HOST }} "/root/od-deploy-script/deploy.sh $NAMESPACE /root/od-deploy-script/$HELM_PACKAGE"
-
