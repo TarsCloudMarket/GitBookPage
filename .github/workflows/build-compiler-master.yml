@@ -29,9 +29,8 @@ jobs:
         with:
           key: ${{ secrets.ACTION_DEPLOY_KEY }}
           known_hosts: ${{ secrets.ACTION_KNOWN_HOSTS }}
-      - name: Set outputs
-        id: vars
-        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+      - name: Set environment variable
+        run: echo "SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-8)" >> $GITHUB_ENV
       - name: npm install
         run: npm install && npm run build
       - name: git tars docs
@@ -42,9 +41,9 @@ jobs:
           git clone https://github.com/TarsCloud/TarsDocs
           git clone https://github.com/TarsCloud/TarsDocs_en
       - name: build docker
-        run: exec-build.sh tarscloud/tars.nodejsbase nodejs . yaml/values.yaml ${{ steps.vars.outputs.sha_short }} true
+        run: exec-build.sh tarscloud/tars.nodejsbase nodejs . yaml/values.yaml $SHORT_SHA true
       - name: build helm
-        run: exec-helm.sh yaml/values.yaml ${{ steps.vars.outputs.sha_short }}
+        run: exec-helm.sh yaml/values.yaml $SHORT_SHA
       - name: scp helm
         run: scp -P 16000 $HELM_PACKAGE root@${{ secrets.ACTION_DEPLOY_HOST }}:/root/od-deploy-script/
       - name: deploy
