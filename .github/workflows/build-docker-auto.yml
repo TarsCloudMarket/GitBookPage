@@ -19,6 +19,7 @@ jobs:
       - name: git to newest tags
         run: |
           env
+          git config --global --add safe.directory /__w/GitBookPage/GitBookPage
           git tag
           git checkout $(git describe --tags)
       - name: Login to Docker Hub
