@@ -49,6 +49,6 @@ jobs:
       - name: build helm
         run: exec-helm.sh yaml/values.yaml ${{ steps.get_version.outputs.VERSION }}
       - name: scp helm
-        run: scp -P 16000 $HELM_PACKAGE root@${{ secrets.ACTION_DEPLOY_HOST }}:/root/od-deploy-script/
+        run: scp -P 16000 $HELM_PACKAGE ubuntu@${{ secrets.ACTION_DEPLOY_HOST }}:/root/od-deploy-script/
       - name: deploy
-        run: ssh -p 16000 root@${{ secrets.ACTION_DEPLOY_HOST }} "/root/od-deploy-script/deploy.sh $NAMESPACE /root/od-deploy-script/$HELM_PACKAGE"
+        run: ssh -p 16000 ubuntu@${{ secrets.ACTION_DEPLOY_HOST }} "/root/od-deploy-script/deploy.sh $NAMESPACE /root/od-deploy-script/$HELM_PACKAGE"
