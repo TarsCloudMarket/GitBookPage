@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     container: tarscloud/base-compiler
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     env:
       NAMESPACE: od-prod
       HELM_PACKAGE: cloud-gitbookserver-1.0.0.tgz
